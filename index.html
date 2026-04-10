@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>용산 영어책 탐색기 — by Gaon Daddy</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1e2a4a">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #fdf6ec;
+  --cream-dark: #f5ead6;
+  --indigo: #1e2a4a;
+  --indigo-light: #2d3f6b;
+  --indigo-soft: #3d5289;
+  --gold: #c9a84c;
+  --gold-light: #e0c36a;
+  --gold-dim: #a68b3a;
+  --accent-green: #4caf7c;
+  --accent-blue: #5b8fd9;
+  --accent-red: #d45b5b;
+  --text: #2c2416;
+  --text-light: #6b5d4d;
+  --text-muted: #9a8d7d;
+  --shadow: rgba(30, 42, 74, 0.12);
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+  padding: 20px 16px 16px;
+  color: var(--cream);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.header .subtitle {
+  font-size: 11px;
+  color: var(--gold-light);
+  margin-top: 2px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.header .stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 11px;
+}
+.header .stat-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 3px 10px;
+  border-radius: 20px;
+  color: var(--gold-light);
+}
+.header .stat-badge strong {
+  color: #fff;
+}
+
+/* Search */
+.search-container {
+  padding: 12px 16px;
+  background: var(--cream-dark);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-box {
+  display: flex;
+  gap: 8px;
+}
+.search-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: #fff;
+  font-size: 15px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--text);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: border-color 0.2s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.search-input::placeholder { color: var(--text-muted); }
+.btn-search {
+  padding: 10px 18px;
+  background: var(--indigo);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* Filters */
+.filters {
+  padding: 10px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--cream);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.filter-chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1.5px solid #ddd;
+  background: #fff;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.filter-chip:hover { border-color: var(--gold); }
+.filter-chip.active {
+  background: var(--indigo);
+  color: #fff;
+  border-color: var(--indigo);
+}
+.filter-chip.active-gold {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+.filter-divider {
+  width: 1px;
+  background: #ddd;
+  margin: 0 4px;
+  align-self: stretch;
+}
+
+/* AR Range Slider */
+.ar-range {
+  padding: 8px 16px 12px;
+  background: var(--cream);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.ar-range-label {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.ar-range-label span { font-weight: 600; color: var(--indigo); }
+.ar-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ar-range-inputs input[type="number"] {
+  width: 60px;
+  padding: 6px 8px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.ar-range-inputs input[type="number"]:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.ar-range-inputs .range-sep {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Sort bar */
+.sort-bar {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-light);
+  background: var(--cream);
+}
+.sort-bar select {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 12px;
+  background: #fff;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+/* Book List */
+.book-list {
+  padding: 8px 16px 100px;
+}
+.book-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px var(--shadow);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+.book-card:active {
+  transform: scale(0.98);
+}
+.book-card.confirmed {
+  border-left: 3px solid var(--accent-green);
+}
+.book-card.estimated {
+  border-left: 3px solid var(--text-muted);
+  opacity: 0.75;
+}
+
+/* AR badge */
+.ar-badge {
+  min-width: 52px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.ar-badge .ar-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--indigo);
+  line-height: 1;
+}
+.ar-badge .ar-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.ar-badge .ar-confirmed {
+  font-size: 8px;
+  color: var(--accent-green);
+  font-weight: 600;
+  margin-top: 1px;
+}
+.ar-badge .ar-estimated {
+  font-size: 8px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Book info */
+.book-info { flex: 1; min-width: 0; }
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.book-author {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+.book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.meta-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.meta-tag.lx { background: #e8f0fe; color: #1a5fb4; }
+.meta-tag.il { background: #fef3e2; color: #a66800; }
+.meta-tag.pts { background: #e8f5e9; color: #2e7d32; }
+.meta-tag.wc { background: #f3e5f5; color: #7b1fa2; }
+.meta-tag.tp { background: #fce4ec; color: #c62828; }
+.meta-tag.lib { background: #f5f5f5; color: #666; }
+
+/* Detail modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  justify-content: center;
+  align-items: flex-end;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px 20px 40px;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--indigo);
+  line-height: 1.3;
+}
+.modal .modal-author {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+.modal .detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+.detail-item {
+  background: var(--cream);
+  padding: 12px;
+  border-radius: 10px;
+}
+.detail-item .detail-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.detail-item .detail-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-top: 2px;
+}
+.detail-item .detail-sub {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 1px;
+}
+.modal .lib-list {
+  margin-top: 16px;
+}
+.modal .lib-list h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+.modal .lib-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--cream);
+  border-radius: 6px;
+  font-size: 12px;
+  margin: 2px 4px 2px 0;
+  color: var(--text);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+.loading .spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--cream-dark);
+  border-top: 3px solid var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; line-height: 1.5; }
+
+/* Infinite scroll trigger */
+.load-more {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* PWA install hint */
+.pwa-hint {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background: var(--indigo);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  z-index: 150;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.pwa-hint .close-hint {
+  float: right;
+  background: none;
+  border: none;
+  color: var(--gold-light);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 용산 영어책 탐색기</h1>
+  <div class="subtitle">YONGSAN ENGLISH BOOK FINDER — by Gaon Daddy</div>
+  <div class="stats" id="stats">
+    <span class="stat-badge">로딩 중...</span>
+  </div>
+</div>
+
+<div class="search-container">
+  <div class="search-box">
+    <input type="text" class="search-input" id="searchInput" placeholder="제목, 저자, ISBN으로 검색..." autocomplete="off">
+    <button class="btn-search" onclick="doSearch()">검색</button>
+  </div>
+</div>
+
+<div class="filters" id="filterArea">
+  <div class="filter-chip active-gold" data-filter="arE" onclick="toggleFilter(this)">✅ AR 확인</div>
+  <div class="filter-chip" data-filter="all" onclick="toggleFilter(this)">전체</div>
+  <div class="filter-divider"></div>
+  <div class="filter-chip" data-filter="il-LG" onclick="toggleFilter(this)">👶 LG (K-3)</div>
+  <div class="filter-chip" data-filter="il-MG" onclick="toggleFilter(this)">📖 MG (4-8)</div>
+  <div class="filter-chip" data-filter="il-UG" onclick="toggleFilter(this)">🎓 UG (9-12)</div>
+  <div class="filter-divider"></div>
+  <div class="filter-chip" data-filter="tp-Fiction" onclick="toggleFilter(this)">소설</div>
+  <div class="filter-chip" data-filter="tp-Nonfiction" onclick="toggleFilter(this)">비소설</div>
+</div>
+
+<div class="ar-range">
+  <div class="ar-range-label">
+    AR 레벨 범위: <span id="arRangeDisplay">0.0 ~ 12.0</span>
+  </div>
+  <div class="ar-range-inputs">
+    <input type="number" id="arMin" value="0" min="0" max="12" step="0.1" onchange="doSearch()">
+    <span class="range-sep">~</span>
+    <input type="number" id="arMax" value="12" min="0" max="12" step="0.1" onchange="doSearch()">
+  </div>
+</div>
+
+<div class="sort-bar">
+  <span id="resultCount">로딩 중...</span>
+  <select id="sortSelect" onchange="doSearch()">
+    <option value="ar-asc">AR 낮은순</option>
+    <option value="ar-desc">AR 높은순</option>
+    <option value="title">제목순</option>
+    <option value="pts-desc">포인트 높은순</option>
+    <option value="wc-asc">단어수 적은순</option>
+  </select>
+</div>
+
+<div class="book-list" id="bookList">
+  <div class="loading">
+    <div class="spinner"></div>
+    52,810권 도서 데이터 로딩 중...
+  </div>
+</div>
+
+<div id="loadMore" class="load-more" style="display:none">더 불러오는 중...</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- PWA Install Hint -->
+<div class="pwa-hint" id="pwaHint">
+  <button class="close-hint" onclick="document.getElementById('pwaHint').style.display='none'">&times;</button>
+  📱 홈 화면에 추가하면 앱처럼 사용할 수 있어요!
+</div>
+
+<script>
+let ALL_BOOKS = [];
+let filtered = [];
+let displayCount = 0;
+const PAGE_SIZE = 40;
+
+// IL display map
+const IL_LABELS = {
+  'LG': 'Lower Grades (K-3)',
+  'MG': 'Middle Grades (4-8)',
+  'MG+': 'Middle Grades+ (6+)',
+  'UG': 'Upper Grades (9-12)'
+};
+
+// Load data
+async function loadBooks() {
+  try {
+    const resp = await fetch('books.json');
+    ALL_BOOKS = await resp.json();
+    updateStats();
+    doSearch();
+    
+    // PWA hint
+    if (window.navigator.standalone !== true && !window.matchMedia('(display-mode: standalone)').matches) {
+      setTimeout(() => {
+        document.getElementById('pwaHint').style.display = 'block';
+        setTimeout(() => document.getElementById('pwaHint').style.display = 'none', 8000);
+      }, 3000);
+    }
+  } catch (e) {
+    document.getElementById('bookList').innerHTML = 
+      '<div class="empty-state"><div class="emoji">❌</div><p>데이터 로딩 실패<br>books.json 파일을 확인해주세요.</p></div>';
+  }
+}
+
+function updateStats() {
+  const confirmed = ALL_BOOKS.filter(b => b.arE === true).length;
+  const total = ALL_BOOKS.length;
+  document.getElementById('stats').innerHTML = `
+    <span class="stat-badge">전체 <strong>${total.toLocaleString()}</strong>권</span>
+    <span class="stat-badge">AR 확인 <strong>${confirmed.toLocaleString()}</strong>권</span>
+  `;
+}
+
+// Filters
+let activeFilters = { arE: true, il: null, tp: null };
+
+function toggleFilter(el) {
+  const f = el.dataset.filter;
+  
+  if (f === 'arE') {
+    activeFilters.arE = !activeFilters.arE;
+    el.classList.toggle('active-gold');
+    // deactivate 'all'
+    document.querySelector('[data-filter="all"]').classList.remove('active');
+  } else if (f === 'all') {
+    activeFilters.arE = false;
+    activeFilters.il = null;
+    activeFilters.tp = null;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active', 'active-gold'));
+    el.classList.add('active');
+  } else if (f.startsWith('il-')) {
+    const val = f.replace('il-', '');
+    if (activeFilters.il === val) {
+      activeFilters.il = null;
+      el.classList.remove('active');
+    } else {
+      document.querySelectorAll('[data-filter^="il-"]').forEach(c => c.classList.remove('active'));
+      activeFilters.il = val;
+      el.classList.add('active');
+    }
+    document.querySelector('[data-filter="all"]').classList.remove('active');
+  } else if (f.startsWith('tp-')) {
+    const val = f.replace('tp-', '');
+    if (activeFilters.tp === val) {
+      activeFilters.tp = null;
+      el.classList.remove('active');
+    } else {
+      document.querySelectorAll('[data-filter^="tp-"]').forEach(c => c.classList.remove('active'));
+      activeFilters.tp = val;
+      el.classList.add('active');
+    }
+    document.querySelector('[data-filter="all"]').classList.remove('active');
+  }
+  
+  doSearch();
+}
+
+function doSearch() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const arMin = parseFloat(document.getElementById('arMin').value) || 0;
+  const arMax = parseFloat(document.getElementById('arMax').value) || 12;
+  const sort = document.getElementById('sortSelect').value;
+
+  document.getElementById('arRangeDisplay').textContent = `${arMin.toFixed(1)} ~ ${arMax.toFixed(1)}`;
+
+  filtered = ALL_BOOKS.filter(b => {
+    // AR confirmed filter
+    if (activeFilters.arE && b.arE !== true) return false;
+    
+    // IL filter
+    if (activeFilters.il) {
+      if (!b.il) return false;
+      if (activeFilters.il === 'MG') {
+        if (b.il !== 'MG' && b.il !== 'MG+') return false;
+      } else {
+        if (b.il !== activeFilters.il) return false;
+      }
+    }
+    
+    // Type filter
+    if (activeFilters.tp) {
+      if (!b.tp || !b.tp.toLowerCase().includes(activeFilters.tp.toLowerCase())) return false;
+    }
+    
+    // AR range
+    const ar = b.ar || 0;
+    if (ar < arMin || ar > arMax) return false;
+    
+    // Search query
+    if (query) {
+      const t = (b.t || '').toLowerCase();
+      const a = (b.a || '').toLowerCase();
+      const isbn = (b.isbn || '').toLowerCase();
+      if (!t.includes(query) && !a.includes(query) && !isbn.includes(query)) return false;
+    }
+    
+    return true;
+  });
+
+  // Sort
+  filtered.sort((a, b) => {
+    switch(sort) {
+      case 'ar-asc': return (a.ar||0) - (b.ar||0);
+      case 'ar-desc': return (b.ar||0) - (a.ar||0);
+      case 'title': return (a.t||'').localeCompare(b.t||'');
+      case 'pts-desc': return (b.arPts||0) - (a.arPts||0);
+      case 'wc-asc': return (a.wc||999999) - (b.wc||999999);
+      default: return 0;
+    }
+  });
+
+  displayCount = 0;
+  document.getElementById('bookList').innerHTML = '';
+  document.getElementById('resultCount').textContent = `${filtered.length.toLocaleString()}권`;
+  renderMore();
+}
+
+function renderMore() {
+  const container = document.getElementById('bookList');
+  const end = Math.min(displayCount + PAGE_SIZE, filtered.length);
+
+  if (displayCount === 0 && filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>검색 결과가 없어요.<br>필터를 조정해보세요.</p></div>';
+    document.getElementById('loadMore').style.display = 'none';
+    return;
+  }
+
+  let html = '';
+  for (let i = displayCount; i < end; i++) {
+    const b = filtered[i];
+    const isConfirmed = b.arE === true;
+    const cardClass = isConfirmed ? 'confirmed' : 'estimated';
+    const ar = b.ar ? b.ar.toFixed(1) : '-';
+    
+    html += `<div class="book-card ${cardClass}" onclick="showDetail(${i})">
+      <div class="ar-badge">
+        <div class="ar-num">${ar}</div>
+        <div class="ar-label">AR</div>
+        ${isConfirmed ? '<div class="ar-confirmed">✓ 확인</div>' : '<div class="ar-estimated">추정</div>'}
+      </div>
+      <div class="book-info">
+        <div class="book-title">${esc(b.t)}</div>
+        <div class="book-author">${esc(b.a)}</div>
+        <div class="book-meta">
+          ${b.lx ? `<span class="meta-tag lx">Lx ${b.lx}</span>` : ''}
+          ${b.il ? `<span class="meta-tag il">${b.il}</span>` : ''}
+          ${b.arPts ? `<span class="meta-tag pts">${b.arPts}pts</span>` : ''}
+          ${b.tp ? `<span class="meta-tag tp">${b.tp}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+  
+  container.insertAdjacentHTML('beforeend', html);
+  displayCount = end;
+  
+  document.getElementById('loadMore').style.display = 
+    displayCount < filtered.length ? 'block' : 'none';
+}
+
+function showDetail(idx) {
+  const b = filtered[idx];
+  const isConfirmed = b.arE === true;
+  
+  let detailHtml = `
+    <h2>${esc(b.t)}</h2>
+    <div class="modal-author">${esc(b.a)}</div>
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">AR Level</div>
+        <div class="detail-value">${b.ar ? b.ar.toFixed(1) : '-'}</div>
+        <div class="detail-sub">${isConfirmed ? '✅ 실제 확인' : '🔶 AI 추정'}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Lexile</div>
+        <div class="detail-value">${b.lx || '-'}</div>
+        <div class="detail-sub">${b.lx ? 'L' : ''}</div>
+      </div>`;
+  
+  if (b.arPts) {
+    detailHtml += `
+      <div class="detail-item">
+        <div class="detail-label">AR Points</div>
+        <div class="detail-value">${b.arPts}</div>
+        <div class="detail-sub">포인트</div>
+      </div>`;
+  }
+  
+  if (b.wc) {
+    detailHtml += `
+      <div class="detail-item">
+        <div class="detail-label">Word Count</div>
+        <div class="detail-value">${b.wc.toLocaleString()}</div>
+        <div class="detail-sub">단어</div>
+      </div>`;
+  }
+  
+  if (b.il) {
+    detailHtml += `
+      <div class="detail-item">
+        <div class="detail-label">Interest Level</div>
+        <div class="detail-value" style="font-size:15px">${IL_LABELS[b.il] || b.il}</div>
+      </div>`;
+  }
+  
+  if (b.tp) {
+    detailHtml += `
+      <div class="detail-item">
+        <div class="detail-label">유형</div>
+        <div class="detail-value" style="font-size:15px">${b.tp}</div>
+      </div>`;
+  }
+  
+  detailHtml += `</div>`;
+  
+  if (b.isbn) {
+    detailHtml += `
+      <div class="detail-grid" style="margin-top:8px">
+        <div class="detail-item" style="grid-column:1/-1">
+          <div class="detail-label">ISBN</div>
+          <div class="detail-value" style="font-size:14px;font-family:'Source Sans 3',sans-serif">${b.isbn}</div>
+        </div>
+      </div>`;
+  }
+  
+  if (b.lb && b.lb.length) {
+    detailHtml += `
+      <div class="lib-list">
+        <h3>📍 소장 도서관</h3>
+        ${b.lb.map(l => `<span class="lib-tag">${esc(l)}</span>`).join('')}
+      </div>`;
+  }
+  
+  if (b.qn) {
+    detailHtml += `
+      <div style="margin-top:16px;text-align:center">
+        <a href="https://www.arbookfind.com/bookdetail.aspx?q=${b.qn}&l=EN" target="_blank" 
+           style="color:var(--accent-blue);font-size:13px;text-decoration:none">
+          🔗 AR BookFinder에서 보기
+        </a>
+      </div>`;
+  }
+  
+  document.getElementById('modalContent').innerHTML = detailHtml;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('active');
+  }
+}
+
+function esc(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Enter key search
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+// Infinite scroll
+const observer = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && displayCount < filtered.length) {
+    renderMore();
+  }
+});
+observer.observe(document.getElementById('loadMore'));
+
+// Init
+loadBooks();
+</script>
+</body>
+</html>
