@@ -1,13 +1,24 @@
 {
   "name": "용산 영어책 탐색기",
   "short_name": "영어책탐색기",
-  "description": "용산구 도서관 AR 영어책 탐색기 by Gaon Daddy",
-  "start_url": "./",
+  "description": "용산구 6개 도서관 영어책 52,810권 탐색 — by Gaon Daddy",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1e2a4a",
-  "theme_color": "#1e2a4a",
+  "background_color": "#2C3E6B",
+  "theme_color": "#2C3E6B",
+  "orientation": "portrait",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
