@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>용산 영어책 탐색기 — by Gaon Daddy</title>
-
-<!-- PWA & 홈화면 아이콘 -->
 <link rel="manifest" href="./manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,1126 +11,253 @@
 <meta name="theme-color" content="#2C3E6B">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #FAF7F2;
-  --bg2: #F0EBE3;
-  --card: #FFFFFF;
-  --card-hover: #FFFDF9;
-  --text1: #1B1B1B;
-  --text2: #4A4A4A;
-  --text3: #8A8578;
-  --accent: #2C3E6B;
-  --accent2: #3D5A99;
-  --gold: #C5973E;
-  --gold-light: #F5E6C8;
-  --border: #E8E2D8;
-  --shadow: rgba(44,62,107,0.08);
-  --tag-bg: #EDE8DF;
-  --level-bg: #E8F0FE;
-  --level-text: #2C3E6B;
-  --green: #2D8B55;
-  --green-bg: #E6F4EC;
-  --orange: #D4800C;
-  --orange-bg: #FEF3E2;
-  --red: #C0392B;
-  --red-bg: #FDECEA;
-  --radius: 14px;
-  --radius-sm: 8px;
-}
-[data-theme="dark"] {
-  --bg: #111318;
-  --bg2: #1A1D25;
-  --card: #22262F;
-  --card-hover: #2A2F3A;
-  --text1: #F0EDE8;
-  --text2: #B0AAA0;
-  --text3: #706B62;
-  --accent: #7B9FE8;
-  --accent2: #5B7FCC;
-  --gold: #D4A84B;
-  --gold-light: #3D3525;
-  --border: #2E3340;
-  --shadow: rgba(0,0,0,0.3);
-  --tag-bg: #2A2D35;
-  --level-bg: #1E2540;
-  --level-text: #7B9FE8;
-  --green: #5BC88A;
-  --green-bg: #1A2E22;
-  --orange: #E8A430;
-  --orange-bg: #2E2518;
-  --red: #E8635A;
-  --red-bg: #2E1A1A;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Nunito', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text1);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── HEADER ── */
-.header {
-  background: var(--accent);
-  padding: 28px 20px 22px;
-  position: relative;
-  overflow: hidden;
-}
-.header::before {
-  content: '';
-  position: absolute;
-  top: -40%; right: -10%;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(197,151,62,0.15) 0%, transparent 70%);
-  border-radius: 50%;
-}
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6px;
-}
-.brand {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.55rem;
-  color: #fff;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-.brand-sub {
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.55);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  margin-top: 2px;
-}
-.header-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.btn-icon {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: all 0.2s;
-  -webkit-tap-highlight-color: rgba(255,255,255,0.15);
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-  position: relative;
-  z-index: 10;
-}
-.btn-icon:hover, .btn-icon:active { background: rgba(255,255,255,0.2); }
-.stat-bar {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-}
-.stat-item {
-  color: rgba(255,255,255,0.6);
-  font-size: 0.72rem;
-  font-weight: 600;
-}
-.stat-item strong {
-  color: var(--gold);
-  font-size: 0.85rem;
-  margin-right: 3px;
-}
-
-/* ── SEARCH ── */
-.search-wrap {
-  padding: 14px 16px 8px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--bg);
-}
-.search-box {
-  display: flex;
-  align-items: center;
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 0 14px;
-  height: 48px;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: border-color 0.2s;
-}
-.search-box:focus-within { border-color: var(--accent); }
-.search-box svg { flex-shrink:0; color: var(--text3); }
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.92rem;
-  color: var(--text1);
-  padding: 0 10px;
-  font-family: inherit;
-}
-.search-box input::placeholder { color: var(--text3); }
-.search-clear {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: var(--bg2);
-  color: var(--text3);
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-}
-
-/* ── FILTERS ── */
-.filter-section {
-  padding: 10px 16px 6px;
-}
-.filter-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-.filter-scroll {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.filter-scroll::-webkit-scrollbar { display: none; }
-.chip {
-  flex-shrink: 0;
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  border: 1.5px solid var(--border);
-  background: var(--card);
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.chip:hover { border-color: var(--accent); color: var(--accent); }
-.chip.active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-.chip .chip-count {
-  font-size: 0.65rem;
-  opacity: 0.6;
-  margin-left: 4px;
-}
-
-/* ── AR LEVEL SLIDER ── */
-.ar-filter {
-  padding: 8px 16px 10px;
-}
-.ar-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.ar-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text3);
-  flex-shrink: 0;
-  min-width: 24px;
-}
-.ar-range-wrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.ar-range-wrap input[type="range"] {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--border);
-  outline: none;
-}
-.ar-range-wrap input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 3px solid var(--card);
-  box-shadow: 0 2px 6px var(--shadow);
-  cursor: pointer;
-}
-.ar-val {
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--accent);
-  min-width: 72px;
-  text-align: center;
-  background: var(--level-bg);
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-}
-.ar-preset-row {
-  display: flex;
-  gap: 5px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-.ar-preset {
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.15s;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.ar-preset:hover { border-color: var(--gold); color: var(--gold); }
-.ar-preset.active {
-  background: var(--gold);
-  color: #fff;
-  border-color: var(--gold);
-}
-
-/* ── LIBRARY FILTER ── */
-.lib-filter {
-  padding: 4px 16px 10px;
-}
-
-/* ── RESULT BAR ── */
-.result-bar {
-  padding: 8px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.result-count {
-  font-size: 0.78rem;
-  color: var(--text3);
-  font-weight: 600;
-}
-.result-count strong {
-  color: var(--accent);
-}
-.sort-btn {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text3);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-/* ── BOOK GRID ── */
-.book-grid {
-  padding: 0 12px 100px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-  gap: 10px;
-}
-.book-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.book-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--shadow);
-  border-color: var(--gold);
-}
-.book-cover {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--bg2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.book-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.book-cover .placeholder {
-  font-size: 2.2rem;
-  opacity: 0.3;
-}
-.ar-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.65rem;
-  font-weight: 800;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.ar-badge.low { background: rgba(45,139,85,0.9); color: #fff; }
-.ar-badge.mid { background: rgba(212,128,12,0.9); color: #fff; }
-.ar-badge.high { background: rgba(192,57,43,0.9); color: #fff; }
-.ar-badge.none { background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.7); }
-.book-info {
-  padding: 10px 11px 12px;
-}
-.book-title {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text1);
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-.book-author {
-  font-size: 0.68rem;
-  color: var(--text3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 6px;
-}
-.book-tags {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.book-tag {
-  font-size: 0.6rem;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: var(--tag-bg);
-  color: var(--text3);
-}
-.book-tag.lx { background: var(--level-bg); color: var(--level-text); }
-
-/* ── LOAD MORE ── */
-.load-more {
-  display: block;
-  margin: 16px auto 100px;
-  padding: 12px 32px;
-  border-radius: var(--radius);
-  border: 1.5px solid var(--border);
-  background: var(--card);
-  color: var(--text2);
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-.load-more:hover { border-color: var(--accent); color: var(--accent); }
-
-/* ── MODAL ── */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 500;
-  align-items: flex-end;
-  justify-content: center;
-  backdrop-filter: blur(3px);
-}
-.modal-overlay.show { display: flex; }
-.modal-sheet {
-  background: var(--card);
-  width: 100%;
-  max-width: 520px;
-  max-height: 85vh;
-  border-radius: 20px 20px 0 0;
-  overflow-y: auto;
-  animation: slideUp 0.3s ease;
-  position: relative;
-}
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-.modal-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 12px auto;
-}
-.modal-body { padding: 0 20px 30px; }
-.modal-cover {
-  width: 120px;
-  aspect-ratio: 3/4;
-  background: var(--bg2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 0 auto 16px;
-  box-shadow: 0 4px 16px var(--shadow);
-}
-.modal-cover img { width: 100%; height: 100%; object-fit: cover; }
-.modal-cover .placeholder { font-size: 3rem; opacity: 0.3; display:flex; align-items:center; justify-content:center; height:100%; }
-.modal-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.2rem;
-  text-align: center;
-  margin-bottom: 4px;
-  line-height: 1.3;
-}
-.modal-author {
-  text-align: center;
-  font-size: 0.82rem;
-  color: var(--text3);
-  margin-bottom: 16px;
-}
-.modal-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.modal-stat {
-  text-align: center;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  background: var(--bg2);
-}
-.modal-stat-val {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-.modal-stat-label {
-  font-size: 0.65rem;
-  color: var(--text3);
-  font-weight: 600;
-  margin-top: 2px;
-}
-.modal-libs {
-  margin-bottom: 16px;
-}
-.modal-libs-title {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text3);
-  margin-bottom: 6px;
-}
-.modal-lib-chip {
-  display: inline-block;
-  padding: 5px 11px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  background: var(--green-bg);
-  color: var(--green);
-  margin: 0 4px 4px 0;
-}
-.modal-isbn {
-  text-align: center;
-  font-size: 0.7rem;
-  color: var(--text3);
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-/* ── MODAL CLOSE BUTTON ── */
-.modal-close-btn {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: var(--bg2);
-  color: var(--text2);
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  z-index: 10;
-  line-height: 1;
-}
-.modal-close-btn:active { background: var(--border); }
-
-/* ── LEVEL GUIDE MODAL ── */
-.guide-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.75rem;
-  margin: 12px 0;
-}
-.guide-table th {
-  background: var(--bg2);
-  padding: 8px;
-  font-weight: 700;
-  color: var(--text2);
-  text-align: left;
-}
-.guide-table td {
-  padding: 7px 8px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
-}
-.guide-table tr:last-child td { border-bottom: none; }
-
-/* ── LOADING ── */
-.loading {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text3);
-}
-.loading-spinner {
-  width: 36px; height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 12px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── RESPONSIVE ── */
-@media (min-width: 600px) {
-  .book-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; padding: 0 20px 100px; }
-  .search-wrap, .filter-section, .ar-filter, .lib-filter, .result-bar { padding-left: 20px; padding-right: 20px; }
-}
-@media (min-width: 900px) {
-  .book-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-}
+:root{--bg:#FAF7F2;--bg2:#F0EBE3;--card:#FFF;--text1:#1B1B1B;--text2:#4A4A4A;--text3:#8A8578;--accent:#2C3E6B;--accent2:#3D5A99;--gold:#C5973E;--gold-light:#F5E6C8;--border:#E8E2D8;--shadow:rgba(44,62,107,.08);--tag-bg:#EDE8DF;--level-bg:#E8F0FE;--level-text:#2C3E6B;--green:#2D8B55;--green-bg:#E6F4EC;--orange:#D4800C;--orange-bg:#FEF3E2;--red:#C0392B;--red-bg:#FDECEA;--radius:14px;--radius-sm:8px}
+[data-theme="dark"]{--bg:#111318;--bg2:#1A1D25;--card:#22262F;--text1:#F0EDE8;--text2:#B0AAA0;--text3:#706B62;--accent:#7B9FE8;--accent2:#5B7FCC;--gold:#D4A84B;--gold-light:#3D3525;--border:#2E3340;--shadow:rgba(0,0,0,.3);--tag-bg:#2A2D35;--level-bg:#1E2540;--level-text:#7B9FE8;--green:#5BC88A;--green-bg:#1A2E22;--orange:#E8A430;--orange-bg:#2E2518;--red:#E8635A;--red-bg:#2E1A1A}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text1);min-height:100vh;-webkit-font-smoothing:antialiased}
+.header{background:var(--accent);padding:28px 20px 22px;position:relative;overflow:hidden}.header::before{content:'';position:absolute;top:-40%;right:-10%;width:200px;height:200px;background:radial-gradient(circle,rgba(197,151,62,.15) 0%,transparent 70%);border-radius:50%}.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.brand{font-family:'DM Serif Display',serif;font-size:1.55rem;color:#fff;letter-spacing:-.02em;line-height:1.2}.brand-sub{font-size:.7rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;margin-top:2px}.header-actions{display:flex;gap:8px;align-items:center}.btn-icon{width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .2s;touch-action:manipulation;user-select:none;position:relative;z-index:10}.btn-icon:hover,.btn-icon:active{background:rgba(255,255,255,.2)}.stat-bar{display:flex;gap:16px;margin-top:12px}.stat-item{color:rgba(255,255,255,.6);font-size:.72rem;font-weight:600}.stat-item strong{color:var(--gold);font-size:.85rem;margin-right:3px}
+.search-wrap{padding:14px 16px 8px;position:sticky;top:0;z-index:100;background:var(--bg)}.search-box{display:flex;align-items:center;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:0 14px;height:48px;box-shadow:0 2px 8px var(--shadow);transition:border-color .2s}.search-box:focus-within{border-color:var(--accent)}.search-box svg{flex-shrink:0;color:var(--text3)}.search-box input{flex:1;border:none;outline:none;background:transparent;font-size:.92rem;color:var(--text1);padding:0 10px;font-family:inherit}.search-box input::placeholder{color:var(--text3)}.search-clear{width:24px;height:24px;border-radius:50%;border:none;background:var(--bg2);color:var(--text3);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:.75rem}
+.filter-section{padding:10px 16px 6px}.filter-label{font-size:.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.filter-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.filter-scroll::-webkit-scrollbar{display:none}.chip{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:.78rem;font-weight:700;border:1.5px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:all .2s;white-space:nowrap;touch-action:manipulation}.chip:hover{border-color:var(--accent);color:var(--accent)}.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}.chip.active-gold{background:var(--gold);color:#fff;border-color:var(--gold)}.chip .chip-count{font-size:.65rem;opacity:.6;margin-left:4px}
+.ar-filter{padding:8px 16px 10px}.ar-row{display:flex;align-items:center;gap:10px}.ar-label{font-size:.75rem;font-weight:700;color:var(--text3);flex-shrink:0;min-width:24px}.ar-range-wrap{flex:1;display:flex;align-items:center;gap:8px}.ar-range-wrap input[type="range"]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--border);outline:none}.ar-range-wrap input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid var(--card);box-shadow:0 2px 6px var(--shadow);cursor:pointer}.ar-val{font-size:.82rem;font-weight:800;color:var(--accent);min-width:72px;text-align:center;background:var(--level-bg);padding:4px 8px;border-radius:var(--radius-sm)}.ar-preset-row{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.ar-preset{padding:5px 10px;border-radius:6px;font-size:.68rem;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:all .15s;touch-action:manipulation}.ar-preset:hover{border-color:var(--gold);color:var(--gold)}.ar-preset.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.result-bar{padding:8px 16px;display:flex;justify-content:space-between;align-items:center}.result-count{font-size:.78rem;color:var(--text3);font-weight:600}.result-count strong{color:var(--accent)}.sort-btn{font-size:.72rem;font-weight:700;color:var(--text3);background:var(--card);border:1px solid var(--border);border-radius:6px;padding:5px 10px;cursor:pointer}
+.book-grid{padding:0 12px 100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}.book-card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative}.book-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow);border-color:var(--gold)}.book-card.confirmed{border-left:3px solid var(--green)}.book-cover{width:100%;aspect-ratio:3/4;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.book-cover img{width:100%;height:100%;object-fit:cover}.book-cover .placeholder{font-size:2.2rem;opacity:.3}.ar-badge{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:6px;font-size:.65rem;font-weight:800;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.ar-badge.low{background:rgba(45,139,85,.9);color:#fff}.ar-badge.mid{background:rgba(212,128,12,.9);color:#fff}.ar-badge.high{background:rgba(192,57,43,.9);color:#fff}.ar-badge.none{background:rgba(0,0,0,.4);color:rgba(255,255,255,.7)}.ar-check{position:absolute;top:8px;left:8px;width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:800}.book-info{padding:10px 11px 12px}.book-title{font-size:.8rem;font-weight:700;color:var(--text1);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px}.book-author{font-size:.68rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px}.book-tags{display:flex;gap:4px;flex-wrap:wrap}.book-tag{font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--tag-bg);color:var(--text3)}.book-tag.lx{background:var(--level-bg);color:var(--level-text)}.book-tag.il{background:var(--orange-bg);color:var(--orange)}.book-tag.pts{background:var(--green-bg);color:var(--green)}
+.load-more{display:block;margin:16px auto 100px;padding:12px 32px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit}.load-more:hover{border-color:var(--accent);color:var(--accent)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modal-overlay.show{display:flex}.modal-sheet{background:var(--card);width:100%;max-width:520px;max-height:85vh;border-radius:20px 20px 0 0;overflow-y:auto;animation:slideUp .3s ease;position:relative}@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto}.modal-body{padding:0 20px 30px}.modal-cover{width:120px;aspect-ratio:3/4;background:var(--bg2);border-radius:10px;overflow:hidden;margin:0 auto 16px;box-shadow:0 4px 16px var(--shadow)}.modal-cover img{width:100%;height:100%;object-fit:cover}.modal-cover .placeholder{font-size:3rem;opacity:.3;display:flex;align-items:center;justify-content:center;height:100%}.modal-title{font-family:'DM Serif Display',serif;font-size:1.2rem;text-align:center;margin-bottom:4px;line-height:1.3}.modal-author{text-align:center;font-size:.82rem;color:var(--text3);margin-bottom:12px}.modal-ar-status{text-align:center;margin-bottom:12px}.ar-status-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:.72rem;font-weight:700}.ar-status-badge.confirmed{background:var(--green-bg);color:var(--green)}.ar-status-badge.estimated{background:var(--orange-bg);color:var(--orange)}.modal-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.modal-stat{text-align:center;padding:10px;border-radius:var(--radius-sm);background:var(--bg2)}.modal-stat-val{font-size:1.1rem;font-weight:800;color:var(--accent)}.modal-stat-label{font-size:.65rem;color:var(--text3);font-weight:600;margin-top:2px}.modal-extra{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.modal-libs{margin-bottom:16px}.modal-libs-title{font-size:.72rem;font-weight:700;color:var(--text3);margin-bottom:6px}.modal-lib-chip{display:inline-block;padding:5px 11px;border-radius:6px;font-size:.72rem;font-weight:600;background:var(--green-bg);color:var(--green);margin:0 4px 4px 0}.modal-isbn{text-align:center;font-size:.7rem;color:var(--text3);padding-top:12px;border-top:1px solid var(--border)}.modal-ar-link{display:block;text-align:center;margin-top:10px;font-size:.75rem;color:var(--accent2);text-decoration:none;font-weight:600}.modal-ar-link:hover{text-decoration:underline}
+.modal-close-btn{position:absolute;top:12px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:var(--bg2);color:var(--text2);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;z-index:10;line-height:1}.modal-close-btn:active{background:var(--border)}
+.guide-table{width:100%;border-collapse:collapse;font-size:.75rem;margin:12px 0}.guide-table th{background:var(--bg2);padding:8px;font-weight:700;color:var(--text2);text-align:left}.guide-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2)}.guide-table tr:last-child td{border-bottom:none}
+.loading{text-align:center;padding:60px 20px;color:var(--text3)}.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}@keyframes spin{to{transform:rotate(360deg)}}
+@media(min-width:600px){.book-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;padding:0 20px 100px}.search-wrap,.filter-section,.ar-filter,.result-bar{padding-left:20px;padding-right:20px}}@media(min-width:900px){.book-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div>
-      <div class="brand">용산 영어책 탐색기</div>
-      <div class="brand-sub">YONGSAN ENGLISH BOOK EXPLORER — by Gaon Daddy</div>
-    </div>
-    <div class="header-actions">
-      <button class="btn-icon" onclick="showGuide()" title="레벨 가이드">📖</button>
-      <button class="btn-icon" onclick="toggleTheme()" title="테마 전환">🌙</button>
-    </div>
-  </div>
-  <div class="stat-bar">
-    <span class="stat-item"><strong id="totalCount">—</strong>권 보유</span>
-    <span class="stat-item"><strong>6</strong>개 도서관</span>
-    <span class="stat-item">AR <strong id="arCoverage">—</strong>% 매핑</span>
-  </div>
-</div>
-
-<!-- SEARCH -->
-<div class="search-wrap">
-  <div class="search-box">
-    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    <input type="text" id="searchInput" placeholder="제목 또는 저자 검색..." autocomplete="off">
-    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
-  </div>
-</div>
-
-<!-- AR CONFIRMED / INTEREST LEVEL FILTER -->
-<div class="filter-section">
-  <div class="filter-label">AR 데이터</div>
-  <div class="filter-scroll" id="arDataBar">
-    <button class="chip active" id="chipArConfirmed" onclick="toggleArE()">✅ AR 확인만 <span class="chip-count" id="arConfirmedCount">—</span></button>
-    <button class="chip" id="chipArAll" onclick="showAllAr()">전체 <span class="chip-count" id="arAllCount">—</span></button>
-  </div>
-</div>
-<div class="filter-section" style="padding-top:2px;">
-  <div class="filter-label">흥미 수준 (Interest Level)</div>
-  <div class="filter-scroll" id="ilBar">
-    <button class="chip active" data-il="all" onclick="setIL(this,'all')">전체</button>
-    <button class="chip" data-il="LG" onclick="setIL(this,'LG')">👶 LG (K-3)</button>
-    <button class="chip" data-il="MG" onclick="setIL(this,'MG')">📖 MG (4-8)</button>
-    <button class="chip" data-il="UG" onclick="setIL(this,'UG')">🎓 UG (9-12)</button>
-  </div>
-</div>
-
-<!-- AR LEVEL FILTER -->
-<div class="ar-filter">
-  <div class="filter-label">AR 레벨</div>
-  <div class="ar-row">
-    <span class="ar-label">AR</span>
-    <div class="ar-range-wrap">
-      <input type="range" id="arMin" min="0" max="13" step="0.5" value="0">
-      <input type="range" id="arMax" min="0" max="13" step="0.5" value="13">
-    </div>
-    <span class="ar-val" id="arDisplay">전체</span>
-  </div>
-  <div class="ar-preset-row">
-    <button class="ar-preset active" data-min="0" data-max="13">전체</button>
-    <button class="ar-preset" data-min="0.1" data-max="1.9">유아·초저</button>
-    <button class="ar-preset" data-min="2.0" data-max="3.9">초중</button>
-    <button class="ar-preset" data-min="4.0" data-max="5.9">초고</button>
-    <button class="ar-preset" data-min="6.0" data-max="7.9">중학</button>
-    <button class="ar-preset" data-min="8.0" data-max="13">고급</button>
-  </div>
-</div>
-
-<!-- GENRE FILTER -->
-<div class="filter-section">
-  <div class="filter-label">장르</div>
-  <div class="filter-scroll" id="genreBar"></div>
-</div>
-
-<!-- LIBRARY FILTER -->
-<div class="lib-filter">
-  <div class="filter-label">도서관</div>
-  <div class="filter-scroll" id="libBar"></div>
-</div>
-
-<!-- RESULT BAR -->
-<div class="result-bar">
-  <span class="result-count"><strong id="filteredCount">—</strong>권 검색됨</span>
-  <button class="sort-btn" id="sortBtn" onclick="toggleSort()">AR 높은순 ↓</button>
-</div>
-
-<!-- BOOK GRID -->
-<div class="book-grid" id="bookGrid">
-  <div class="loading">
-    <div class="loading-spinner"></div>
-    <div>52,810권 불러오는 중...</div>
-  </div>
-</div>
-
-<!-- LOAD MORE -->
+<div class="header"><div class="header-top"><div><div class="brand">용산 영어책 탐색기</div><div class="brand-sub">YONGSAN ENGLISH BOOK EXPLORER — by Gaon Daddy</div></div><div class="header-actions"><button class="btn-icon" onclick="showHelp()" title="사용법 가이드">❓</button><button class="btn-icon" onclick="toggleTheme()" title="테마 전환">🌙</button></div></div><div class="stat-bar"><span class="stat-item"><strong id="totalCount">—</strong>권 보유</span><span class="stat-item">AR 확인 <strong id="arConfirmedCount">—</strong>권</span><span class="stat-item"><strong>6</strong>개 도서관</span></div></div>
+<div class="search-wrap"><div class="search-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="searchInput" placeholder="제목, 저자, ISBN 검색..." autocomplete="off"><button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button></div></div>
+<div class="filter-section"><div class="filter-label">AR 데이터</div><div class="filter-scroll" id="arStatusBar"></div></div>
+<div class="ar-filter"><div class="filter-label">AR 레벨</div><div class="ar-row"><span class="ar-label">AR</span><div class="ar-range-wrap"><input type="range" id="arMin" min="0" max="13" step="0.5" value="0"><input type="range" id="arMax" min="0" max="13" step="0.5" value="13"></div><span class="ar-val" id="arDisplay">전체</span></div><div class="ar-preset-row"><button class="ar-preset active" data-min="0" data-max="13">전체</button><button class="ar-preset" data-min="0.1" data-max="1.9">유아·초저</button><button class="ar-preset" data-min="2.0" data-max="3.9">초중</button><button class="ar-preset" data-min="4.0" data-max="5.9">초고</button><button class="ar-preset" data-min="6.0" data-max="7.9">중학</button><button class="ar-preset" data-min="8.0" data-max="13">고급</button></div></div>
+<div class="filter-section"><div class="filter-label">Interest Level</div><div class="filter-scroll" id="ilBar"></div></div>
+<div class="filter-section"><div class="filter-label">장르</div><div class="filter-scroll" id="genreBar"></div></div>
+<div class="filter-section" style="padding-bottom:2px"><div class="filter-label">도서관</div><div class="filter-scroll" id="libBar"></div></div>
+<div class="result-bar"><span class="result-count"><strong id="filteredCount">—</strong>권 검색됨</span><button class="sort-btn" id="sortBtn" onclick="toggleSort()">AR 높은순 ↓</button></div>
+<div class="book-grid" id="bookGrid"><div class="loading"><div class="loading-spinner"></div><div>52,810권 불러오는 중...</div></div></div>
 <button class="load-more" id="loadMore" onclick="loadMore()" style="display:none">더 보기</button>
+<div class="modal-overlay" id="bookModal" onclick="closeModal(event)"><div class="modal-sheet" onclick="event.stopPropagation()"><button class="modal-close-btn" onclick="document.getElementById('bookModal').classList.remove('show');document.body.style.overflow='';" aria-label="닫기">✕</button><div class="modal-handle"></div><div class="modal-body" id="modalBody"></div></div></div>
+<div class="modal-overlay" id="guideModal" onclick="closeGuide(event)"><div class="modal-sheet" onclick="event.stopPropagation()"><button class="modal-close-btn" onclick="document.getElementById('guideModal').classList.remove('show');document.body.style.overflow='';" aria-label="닫기">✕</button><div class="modal-handle"></div><div class="modal-body" style="padding-bottom:40px">
 
-<!-- BOOK DETAIL MODAL -->
-<div class="modal-overlay" id="bookModal" onclick="closeModal(event)">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <button class="modal-close-btn" onclick="document.getElementById('bookModal').classList.remove('show');document.body.style.overflow='';" aria-label="닫기">✕</button>
-    <div class="modal-handle"></div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
+<h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;text-align:center;margin-bottom:4px">📚 사용법 가이드</h3>
+<p style="font-size:.72rem;color:var(--text3);text-align:center;margin-bottom:20px">용산 영어책 탐색기 활용법</p>
+
+<!-- 섹션 1: 앱 소개 -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">📱 이 앱은 뭔가요?</div>
+<p style="font-size:.75rem;color:var(--text2);line-height:1.6">
+용산구 <strong>6개 도서관</strong>의 영어책 <strong id="guideTotal">52,810</strong>권을 한눈에 검색하고, AR 읽기 레벨을 확인할 수 있는 탐색기예요.<br><br>
+✅ <strong>AR 확인</strong> (<strong id="guideConfirmed">20,403</strong>권) — arbookfind.com에서 실제 확인된 <strong>정확한</strong> AR 값<br>
+🔶 <strong>AI 추정</strong> — AI가 제목·장르로 추정한 값 (오차 가능, 참고용)
+</p>
 </div>
 
-<!-- LEVEL GUIDE MODAL -->
-<div class="modal-overlay" id="guideModal" onclick="closeGuide(event)">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <button class="modal-close-btn" onclick="document.getElementById('guideModal').classList.remove('show');document.body.style.overflow='';" aria-label="닫기">✕</button>
-    <div class="modal-handle"></div>
-    <div class="modal-body">
-      <h3 style="font-family:'DM Serif Display',serif; font-size:1.15rem; text-align:center; margin-bottom:4px;">AR & Lexile 레벨 가이드</h3>
-      <p style="font-size:0.72rem; color:var(--text3); text-align:center; margin-bottom:12px;">학년별 권장 읽기 수준 참고표</p>
-      <table class="guide-table">
-        <tr><th>단계</th><th>AR</th><th>Lexile</th><th>대상</th></tr>
-        <tr><td style="color:var(--green);font-weight:700">유아·초저</td><td>0.1–1.9</td><td>~100L</td><td>유치원~초1</td></tr>
-        <tr><td style="color:var(--green);font-weight:700">초중</td><td>2.0–3.9</td><td>100–450L</td><td>초2~초3</td></tr>
-        <tr><td style="color:var(--orange);font-weight:700">초고</td><td>4.0–5.9</td><td>450–800L</td><td>초4~초6</td></tr>
-        <tr><td style="color:var(--red);font-weight:700">중학</td><td>6.0–7.9</td><td>800–1100L</td><td>중1~중3</td></tr>
-        <tr><td style="color:var(--red);font-weight:700">고급</td><td>8.0+</td><td>1100L+</td><td>고등 이상</td></tr>
-      </table>
-      <p style="font-size:0.68rem; color:var(--text3); margin-top:10px; line-height:1.5;">
-        <strong>AR (Accelerated Reader)</strong>: 미국 학년 기준 읽기 난이도. 3.5 = 미국 초3 중반 수준.<br>
-        <strong>Lexile</strong>: 텍스트 복잡도 지수. 높을수록 어려움.<br>
-        ※ ✅ AR 확인 도서는 arbookfind.com 실제 데이터입니다.<br>
-        ※ 🔶 추정값은 AI 기반이므로 실제와 차이가 있을 수 있습니다.
-      </p>
-    </div>
-  </div>
+<!-- 섹션 2: AR / Lexile -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">📊 AR / Lexile이 뭔가요?</div>
+<p style="font-size:.75rem;color:var(--text2);line-height:1.6;margin-bottom:8px">
+<strong>AR (Accelerated Reader)</strong> — 미국 학년 기준 읽기 난이도예요. 숫자가 클수록 어려워요.<br>
+<strong>Lexile</strong> — 텍스트 복잡도 지수. AR과 비슷하지만 다른 척도예요.
+</p>
+<table class="guide-table">
+<tr><th>단계</th><th>AR</th><th>Lexile</th><th>대상</th></tr>
+<tr><td style="color:var(--green);font-weight:700">유아·초저</td><td>0.1–1.9</td><td>~100L</td><td>유치원~초1</td></tr>
+<tr><td style="color:var(--green);font-weight:700">초중</td><td>2.0–3.9</td><td>100–450L</td><td>초2~초3</td></tr>
+<tr><td style="color:var(--orange);font-weight:700">초고</td><td>4.0–5.9</td><td>450–800L</td><td>초4~초6</td></tr>
+<tr><td style="color:var(--red);font-weight:700">중학</td><td>6.0–7.9</td><td>800–1100L</td><td>중1~중3</td></tr>
+<tr><td style="color:var(--red);font-weight:700">고급</td><td>8.0+</td><td>1100L+</td><td>고등 이상</td></tr>
+</table>
 </div>
 
+<!-- 섹션 3: Interest Level -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">🎯 Interest Level (흥미 수준)</div>
+<p style="font-size:.75rem;color:var(--text2);line-height:1.6;margin-bottom:8px">
+AR은 <strong>읽기 난이도</strong>이고, Interest Level은 <strong>내용이 어떤 연령대에 적합한지</strong>를 나타내요.
+</p>
+<table class="guide-table">
+<tr><th>IL</th><th>대상</th><th>의미</th></tr>
+<tr><td style="font-weight:700">LG (K-3)</td><td>유치원~초3</td><td>아이들이 좋아할 주제</td></tr>
+<tr><td style="font-weight:700">MG (4-8)</td><td>초4~중2</td><td>사춘기 전후 관심사</td></tr>
+<tr><td style="font-weight:700">MG+ (6+)</td><td>초6 이상</td><td>성숙한 주제 포함</td></tr>
+<tr><td style="font-weight:700">UG (9-12)</td><td>고등학생</td><td>성인에 가까운 주제</td></tr>
+</table>
+<p style="font-size:.72rem;color:var(--text3);line-height:1.5;margin-top:8px">
+💡 <strong>팁:</strong> AR 레벨이 낮아도 IL이 UG면 어린 아이에겐 부적합해요. <strong>AR + IL 조합</strong>으로 필터링하세요!
+</p>
+</div>
+
+<!-- 섹션 4: 추천 사용법 -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">💡 이렇게 써보세요</div>
+<div style="background:var(--green-bg);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px">
+<div style="font-size:.75rem;font-weight:700;color:var(--green);margin-bottom:4px">👶 6세 아이에게 맞는 책 찾기</div>
+<p style="font-size:.72rem;color:var(--text2);line-height:1.5">✅ AR 확인 → Interest Level: LG → AR 레벨: 0~2 → 소설</p>
+</div>
+<div style="background:var(--orange-bg);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px">
+<div style="font-size:.75rem;font-weight:700;color:var(--orange);margin-bottom:4px">📖 초등 저학년 도전</div>
+<p style="font-size:.72rem;color:var(--text2);line-height:1.5">✅ AR 확인 → Interest Level: LG → AR 레벨: 2~4 → 단어수 적은순 정렬</p>
+</div>
+<div style="background:var(--level-bg);border-radius:var(--radius-sm);padding:12px">
+<div style="font-size:.75rem;font-weight:700;color:var(--accent);margin-bottom:4px">🔍 아이 읽기 수준 파악하기</div>
+<p style="font-size:.72rem;color:var(--text2);line-height:1.5">AR 낮은순 정렬 → 아이가 편하게 읽는 레벨부터 시작 → 점진적으로 올리기</p>
+</div>
+</div>
+
+<!-- 섹션 5: 카드 보는 법 -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">🃏 카드 보는 법</div>
+<p style="font-size:.75rem;color:var(--text2);line-height:1.8">
+<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;font-size:.6rem;text-align:center;line-height:20px;font-weight:800;vertical-align:middle">✓</span> 좌상단 초록 체크 = <strong>AR 실제 확인 도서</strong><br>
+<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:rgba(45,139,85,.9);color:#fff;font-size:.6rem;font-weight:800;vertical-align:middle">AR 2.5</span> 초록 배지 = AR 4 미만 (쉬움)<br>
+<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:rgba(212,128,12,.9);color:#fff;font-size:.6rem;font-weight:800;vertical-align:middle">AR 5.0</span> 주황 배지 = AR 4~7 (보통)<br>
+<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:rgba(192,57,43,.9);color:#fff;font-size:.6rem;font-weight:800;vertical-align:middle">AR 8.0</span> 빨강 배지 = AR 7 이상 (어려움)<br><br>
+카드를 탭하면 <strong>상세 정보</strong> (AR Points, Word Count, 소장 도서관 등)를 볼 수 있어요.
+</p>
+</div>
+
+<!-- 섹션 6: 상세 정보 설명 -->
+<div style="margin-bottom:20px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">📋 상세 정보 항목</div>
+<table class="guide-table">
+<tr><th>항목</th><th>의미</th></tr>
+<tr><td style="font-weight:700">AR Level</td><td>읽기 난이도 (미국 학년 기준)</td></tr>
+<tr><td style="font-weight:700">Lexile</td><td>텍스트 복잡도 지수</td></tr>
+<tr><td style="font-weight:700">AR Points</td><td>책 분량/난이도 포인트 (학교 AR 프로그램용)</td></tr>
+<tr><td style="font-weight:700">Word Count</td><td>총 단어 수 — 짧은 책부터 시작하고 싶을 때 참고</td></tr>
+<tr><td style="font-weight:700">Interest Level</td><td>내용 적합 연령대 (LG/MG/UG)</td></tr>
+<tr><td style="font-weight:700">Quiz No.</td><td>AR 퀴즈 번호 (학교 AR 시스템용)</td></tr>
+</table>
+</div>
+
+<!-- 섹션 7: 도서관 정보 -->
+<div style="margin-bottom:16px">
+<div style="font-size:.85rem;font-weight:800;color:var(--accent);margin-bottom:8px">🏛️ 용산구 6개 도서관</div>
+<p style="font-size:.75rem;color:var(--text2);line-height:1.8">
+📍 용산도서관<br>
+📍 용산꿈나무도서관<br>
+📍 청파도서관<br>
+📍 이태원꿈나무도서관<br>
+📍 효창동작은도서관<br>
+📍 한강로동작은도서관<br><br>
+카드 상세에서 <strong>"소장 도서관"</strong>을 확인하면 해당 도서관에서 대출 가능해요.
+</p>
+</div>
+
+<p style="font-size:.65rem;color:var(--text3);text-align:center;line-height:1.5;padding-top:12px;border-top:1px solid var(--border)">
+용산 영어책 탐색기 v2 — by Gaon Daddy<br>
+AR 데이터: arbookfind.com (Renaissance Learning)
+</p>
+
+</div></div></div>
 <script>
-// ── STATE ──
-let BOOKS = [];
-let filtered = [];
-let page = 0;
-const PER = 48;
-let currentSort = 'ar-desc';
-let arMinVal = 0, arMaxVal = 13;
-let activeGenre = '전체';
-let activeLib = '전체';
-let activeArE = true;  // AR 확인만 기본 ON
-let activeIL = 'all';
-let searchQuery = '';
-let debounceTimer = null;
+let BOOKS=[],filtered=[],page=0;const PER=48;let currentSort='ar-desc',arMinVal=0,arMaxVal=13,activeGenre='전체',activeLib='전체',activeIL='전체',activeArStatus='✅ AR 확인',searchQuery='',debounceTimer=null;
+const IL_LABELS={'LG':'LG (K-3)','MG':'MG (4-8)','MG+':'MG+ (6+)','UG':'UG (9-12)'};
+const IL_FULL={'LG':'Lower Grades (K-3)','MG':'Middle Grades (4-8)','MG+':'Middle Grades+ (6+)','UG':'Upper Grades (9-12)'};
+const GENRE_KO={'전체':'전체','Fiction':'소설','Nonfiction':'논픽션','Science':'과학','Animals':'동물','History':'역사','Fantasy':'판타지','Adventure':'모험','Family':'가족','Humor':'유머','Other':'기타'};
+const GENRE_ORDER=['전체','Fiction','Science','Animals','History','Nonfiction','Fantasy','Adventure','Family','Humor','Other'];
 
-// ── GENRE / LIB CONFIG ──
-const GENRE_KO = {
-  '전체':'전체','Fiction':'소설','Nonfiction':'논픽션','Science':'과학',
-  'Animals':'동물','History':'역사','Fantasy':'판타지','Adventure':'모험',
-  'Family':'가족','Humor':'유머','Other':'기타'
-};
-const GENRE_ORDER = ['전체','Fiction','Science','Animals','History','Nonfiction','Fantasy','Adventure','Family','Humor','Other'];
-
-// ── INIT ──
-async function init() {
-  try {
-    const res = await fetch('./books.json');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    BOOKS = await res.json();
-  } catch(e) {
-    document.getElementById('bookGrid').innerHTML =
-      '<div class="loading">⚠️ books.json 파일을 불러올 수 없습니다.<br><span style="font-size:0.75rem;color:var(--text3)">같은 폴더에 books.json이 있는지 확인하세요.</span></div>';
-    return;
-  }
-
-  document.getElementById('totalCount').textContent = BOOKS.length.toLocaleString();
-  const arConfirmed = BOOKS.filter(b => b.arE === true).length;
-  const arPct = ((BOOKS.filter(b => b.ar > 0).length / BOOKS.length) * 100).toFixed(1);
-  document.getElementById('arCoverage').textContent = arPct;
-  document.getElementById('arConfirmedCount').textContent = arConfirmed.toLocaleString();
-  document.getElementById('arAllCount').textContent = BOOKS.length.toLocaleString();
-
-  buildGenreBar();
-  buildLibBar();
-  setupSearch();
-  setupARSlider();
-  apply();
+async function init(){
+  try{const res=await fetch('./books.json');if(!res.ok)throw new Error();BOOKS=await res.json()}catch(e){document.getElementById('bookGrid').innerHTML='<div class="loading" style="grid-column:1/-1">⚠️ books.json을 불러올 수 없습니다.</div>';return}
+  document.getElementById('totalCount').textContent=BOOKS.length.toLocaleString();
+  document.getElementById('arConfirmedCount').textContent=BOOKS.filter(b=>b.arE===true).length.toLocaleString();
+  buildArStatusBar();buildILBar();buildGenreBar();buildLibBar();setupSearch();setupARSlider();apply();
 }
 
-// ── AR CONFIRMED TOGGLE ──
-function toggleArE() {
-  activeArE = true;
-  document.getElementById('chipArConfirmed').classList.add('active');
-  document.getElementById('chipArAll').classList.remove('active');
-  apply();
-}
-function showAllAr() {
-  activeArE = false;
-  document.getElementById('chipArAll').classList.add('active');
-  document.getElementById('chipArConfirmed').classList.remove('active');
-  apply();
+function buildArStatusBar(){
+  const bar=document.getElementById('arStatusBar'),cc=BOOKS.filter(b=>b.arE===true).length,ec=BOOKS.filter(b=>b.arE!==true&&b.ar>0).length;
+  [{l:'✅ AR 확인',c:cc},{l:'전체',c:BOOKS.length},{l:'🔶 AI 추정',c:ec}].forEach(item=>{
+    const chip=document.createElement('button');chip.className='chip'+(item.l===activeArStatus?(item.l.includes('확인')?' active-gold':' active'):'');
+    chip.innerHTML=item.l+'<span class="chip-count">'+item.c.toLocaleString()+'</span>';
+    chip.onclick=()=>{activeArStatus=item.l;document.querySelectorAll('#arStatusBar .chip').forEach(c=>c.classList.remove('active','active-gold'));chip.classList.add(item.l.includes('확인')?'active-gold':'active');apply()};bar.appendChild(chip)});
 }
 
-// ── INTEREST LEVEL FILTER ──
-function setIL(el, val) {
-  activeIL = val;
-  document.querySelectorAll('#ilBar .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  apply();
+function buildILBar(){
+  const bar=document.getElementById('ilBar'),counts={};BOOKS.filter(b=>b.arE===true).forEach(b=>{if(b.il)counts[b.il]=(counts[b.il]||0)+1});
+  const allC=document.createElement('button');allC.className='chip active';allC.innerHTML='전체';allC.onclick=()=>{activeIL='전체';document.querySelectorAll('#ilBar .chip').forEach(c=>c.classList.remove('active'));allC.classList.add('active');apply()};bar.appendChild(allC);
+  ['LG','MG','MG+','UG'].forEach(il=>{const cnt=counts[il]||0;if(!cnt)return;const chip=document.createElement('button');chip.className='chip';chip.innerHTML=(IL_LABELS[il]||il)+'<span class="chip-count">'+cnt.toLocaleString()+'</span>';chip.onclick=()=>{activeIL=il;document.querySelectorAll('#ilBar .chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');apply()};bar.appendChild(chip)});
 }
 
-// ── GENRE BAR ──
-function buildGenreBar() {
-  const counts = {};
-  BOOKS.forEach(b => { counts[b.tp] = (counts[b.tp]||0) + 1; });
-  const bar = document.getElementById('genreBar');
-  bar.innerHTML = '';
-  GENRE_ORDER.forEach(g => {
-    const label = GENRE_KO[g] || g;
-    const count = g === '전체' ? BOOKS.length : (counts[g]||0);
-    if (count === 0 && g !== '전체') return;
-    const chip = document.createElement('button');
-    chip.className = 'chip' + (g === activeGenre ? ' active' : '');
-    chip.innerHTML = label + '<span class="chip-count">' + count.toLocaleString() + '</span>';
-    chip.onclick = () => { activeGenre = g; document.querySelectorAll('#genreBar .chip').forEach(c=>c.classList.remove('active')); chip.classList.add('active'); apply(); };
-    bar.appendChild(chip);
-  });
+function buildGenreBar(){
+  const counts={};BOOKS.forEach(b=>{counts[b.tp]=(counts[b.tp]||0)+1});const bar=document.getElementById('genreBar');
+  GENRE_ORDER.forEach(g=>{const label=GENRE_KO[g]||g,count=g==='전체'?BOOKS.length:(counts[g]||0);if(!count&&g!=='전체')return;const chip=document.createElement('button');chip.className='chip'+(g===activeGenre?' active':'');chip.innerHTML=label+'<span class="chip-count">'+count.toLocaleString()+'</span>';chip.onclick=()=>{activeGenre=g;document.querySelectorAll('#genreBar .chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');apply()};bar.appendChild(chip)});
 }
 
-// ── LIBRARY BAR ──
-function buildLibBar() {
-  const counts = {};
-  BOOKS.forEach(b => b.lb.forEach(l => { counts[l] = (counts[l]||0) + 1; }));
-  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-  const bar = document.getElementById('libBar');
-  bar.innerHTML = '';
-  const allChip = document.createElement('button');
-  allChip.className = 'chip active';
-  allChip.innerHTML = '전체<span class="chip-count">' + BOOKS.length.toLocaleString() + '</span>';
-  allChip.onclick = () => { activeLib = '전체'; document.querySelectorAll('#libBar .chip').forEach(c=>c.classList.remove('active')); allChip.classList.add('active'); apply(); };
-  bar.appendChild(allChip);
-  sorted.forEach(([name, cnt]) => {
-    const short = name.replace('서울특별시교육청','').replace('도서관','').replace('어린이영어','🌏').replace('어린이','👶').replace('작은','📚');
-    const chip = document.createElement('button');
-    chip.className = 'chip';
-    chip.innerHTML = short + '<span class="chip-count">' + cnt.toLocaleString() + '</span>';
-    chip.onclick = () => { activeLib = name; document.querySelectorAll('#libBar .chip').forEach(c=>c.classList.remove('active')); chip.classList.add('active'); apply(); };
-    bar.appendChild(chip);
-  });
+function buildLibBar(){
+  const counts={};BOOKS.forEach(b=>b.lb.forEach(l=>{counts[l]=(counts[l]||0)+1}));const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);const bar=document.getElementById('libBar');
+  const allC=document.createElement('button');allC.className='chip active';allC.innerHTML='전체<span class="chip-count">'+BOOKS.length.toLocaleString()+'</span>';allC.onclick=()=>{activeLib='전체';document.querySelectorAll('#libBar .chip').forEach(c=>c.classList.remove('active'));allC.classList.add('active');apply()};bar.appendChild(allC);
+  sorted.forEach(([name,cnt])=>{const short=name.replace('서울특별시교육청','').replace('도서관','').replace('어린이영어','🌏').replace('어린이','👶').replace('작은','📚');const chip=document.createElement('button');chip.className='chip';chip.innerHTML=short+'<span class="chip-count">'+cnt.toLocaleString()+'</span>';chip.onclick=()=>{activeLib=name;document.querySelectorAll('#libBar .chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');apply()};bar.appendChild(chip)});
 }
 
-// ── SEARCH ──
-function setupSearch() {
-  const input = document.getElementById('searchInput');
-  const clear = document.getElementById('searchClear');
-  input.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    clear.style.display = input.value ? 'flex' : 'none';
-    debounceTimer = setTimeout(() => { searchQuery = input.value.trim().toLowerCase(); apply(); }, 200);
-  });
+function setupSearch(){const input=document.getElementById('searchInput'),clear=document.getElementById('searchClear');input.addEventListener('input',()=>{clearTimeout(debounceTimer);clear.style.display=input.value?'flex':'none';debounceTimer=setTimeout(()=>{searchQuery=input.value.trim().toLowerCase();apply()},200)})}
+function clearSearch(){document.getElementById('searchInput').value='';document.getElementById('searchClear').style.display='none';searchQuery='';apply()}
+
+function setupARSlider(){
+  const min=document.getElementById('arMin'),max=document.getElementById('arMax'),display=document.getElementById('arDisplay');
+  function update(){arMinVal=parseFloat(min.value);arMaxVal=parseFloat(max.value);if(arMinVal>arMaxVal){if(this===min)max.value=min.value;else min.value=max.value;arMinVal=parseFloat(min.value);arMaxVal=parseFloat(max.value)}if(arMinVal===0&&arMaxVal===13)display.textContent='전체';else display.textContent='AR '+arMinVal.toFixed(1)+' – '+arMaxVal.toFixed(1);updatePresetHighlight();apply()}
+  min.addEventListener('input',update);max.addEventListener('input',update);
+  document.querySelectorAll('.ar-preset').forEach(btn=>{btn.addEventListener('click',()=>{const lo=parseFloat(btn.dataset.min),hi=parseFloat(btn.dataset.max);min.value=lo;max.value=hi;arMinVal=lo;arMaxVal=hi;if(lo===0&&hi===13)display.textContent='전체';else display.textContent='AR '+lo.toFixed(1)+' – '+hi.toFixed(1);updatePresetHighlight();apply()})});
 }
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('searchClear').style.display = 'none';
-  searchQuery = '';
-  apply();
-}
+function updatePresetHighlight(){document.querySelectorAll('.ar-preset').forEach(btn=>{btn.classList.toggle('active',parseFloat(btn.dataset.min)===arMinVal&&parseFloat(btn.dataset.max)===arMaxVal)})}
 
-// ── AR SLIDER ──
-function setupARSlider() {
-  const min = document.getElementById('arMin');
-  const max = document.getElementById('arMax');
-  const display = document.getElementById('arDisplay');
-
-  function update() {
-    arMinVal = parseFloat(min.value);
-    arMaxVal = parseFloat(max.value);
-    if (arMinVal > arMaxVal) { if (this === min) max.value = min.value; else min.value = max.value; arMinVal = parseFloat(min.value); arMaxVal = parseFloat(max.value); }
-    if (arMinVal === 0 && arMaxVal === 13) display.textContent = '전체';
-    else display.textContent = 'AR ' + arMinVal.toFixed(1) + ' – ' + arMaxVal.toFixed(1);
-    updatePresetHighlight();
-    apply();
-  }
-  min.addEventListener('input', update);
-  max.addEventListener('input', update);
-
-  document.querySelectorAll('.ar-preset').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lo = parseFloat(btn.dataset.min);
-      const hi = parseFloat(btn.dataset.max);
-      min.value = lo; max.value = hi;
-      arMinVal = lo; arMaxVal = hi;
-      if (lo === 0 && hi === 13) display.textContent = '전체';
-      else display.textContent = 'AR ' + lo.toFixed(1) + ' – ' + hi.toFixed(1);
-      updatePresetHighlight();
-      apply();
-    });
-  });
+function toggleSort(){
+  const orders=['ar-desc','ar-asc','title','lexile-desc','pts-desc','wc-asc'],labels=['AR 높은순 ↓','AR 낮은순 ↑','제목순 ↓','Lexile 높은순 ↓','포인트 높은순 ↓','단어수 적은순 ↑'];
+  let idx=(orders.indexOf(currentSort)+1)%orders.length;currentSort=orders[idx];document.getElementById('sortBtn').textContent=labels[idx];apply();
 }
 
-function updatePresetHighlight() {
-  document.querySelectorAll('.ar-preset').forEach(btn => {
-    const lo = parseFloat(btn.dataset.min);
-    const hi = parseFloat(btn.dataset.max);
-    btn.classList.toggle('active', lo === arMinVal && hi === arMaxVal);
-  });
-}
-
-// ── SORT ──
-function toggleSort() {
-  const orders = ['ar-desc','ar-asc','title','lexile-desc'];
-  const labels = ['AR 높은순 ↓','AR 낮은순 ↑','제목순 ↓','Lexile 높은순 ↓'];
-  let idx = orders.indexOf(currentSort);
-  idx = (idx + 1) % orders.length;
-  currentSort = orders[idx];
-  document.getElementById('sortBtn').textContent = labels[idx];
-  apply();
-}
-
-// ── APPLY FILTERS ──
-function apply() {
-  const isArAll = arMinVal === 0 && arMaxVal === 13;
-
-  filtered = BOOKS.filter(b => {
-    if (searchQuery) {
-      const q = searchQuery;
-      if (!b.t.toLowerCase().includes(q) && !(b.a && b.a.toLowerCase().includes(q)) && !(b.isbn && b.isbn.includes(q))) return false;
-    }
-    if (activeArE && b.arE !== true) return false;
-    if (activeIL !== 'all') {
-      if (!b.il) return false;
-      if (activeIL === 'MG') { if (b.il !== 'MG' && b.il !== 'MG+') return false; }
-      else { if (b.il !== activeIL) return false; }
-    }
-    if (activeGenre !== '전체' && b.tp !== activeGenre) return false;
-    if (activeLib !== '전체' && !b.lb.includes(activeLib)) return false;
-    if (!isArAll) {
-      if (b.ar <= 0) return false;
-      if (b.ar < arMinVal || b.ar > arMaxVal) return false;
-    }
+function apply(){
+  const isArAll=arMinVal===0&&arMaxVal===13;
+  filtered=BOOKS.filter(b=>{
+    if(searchQuery){const q=searchQuery;if(!b.t.toLowerCase().includes(q)&&!(b.a&&b.a.toLowerCase().includes(q))&&!(b.isbn&&b.isbn.includes(q)))return false}
+    if(activeArStatus==='✅ AR 확인'&&b.arE!==true)return false;
+    if(activeArStatus==='🔶 AI 추정'&&(b.arE===true||!b.ar||b.ar<=0))return false;
+    if(activeIL!=='전체'){if(!b.il)return false;if(activeIL==='MG'){if(b.il!=='MG'&&b.il!=='MG+')return false}else if(b.il!==activeIL)return false}
+    if(activeGenre!=='전체'&&b.tp!==activeGenre)return false;
+    if(activeLib!=='전체'&&!b.lb.includes(activeLib))return false;
+    if(!isArAll){if(b.ar<=0)return false;if(b.ar<arMinVal||b.ar>arMaxVal)return false}
     return true;
   });
-
-  // Sort
-  if (currentSort === 'ar-desc') filtered.sort((a,b) => b.ar - a.ar);
-  else if (currentSort === 'ar-asc') filtered.sort((a,b) => (a.ar||99) - (b.ar||99));
-  else if (currentSort === 'title') filtered.sort((a,b) => a.t.localeCompare(b.t));
-  else if (currentSort === 'lexile-desc') filtered.sort((a,b) => (b.lx||0) - (a.lx||0));
-
-  document.getElementById('filteredCount').textContent = filtered.length.toLocaleString();
-  page = 0;
-  render();
+  if(currentSort==='ar-desc')filtered.sort((a,b)=>b.ar-a.ar);else if(currentSort==='ar-asc')filtered.sort((a,b)=>(a.ar||99)-(b.ar||99));else if(currentSort==='title')filtered.sort((a,b)=>a.t.localeCompare(b.t));else if(currentSort==='lexile-desc')filtered.sort((a,b)=>(b.lx||0)-(a.lx||0));else if(currentSort==='pts-desc')filtered.sort((a,b)=>(b.arPts||0)-(a.arPts||0));else if(currentSort==='wc-asc')filtered.sort((a,b)=>(a.wc||999999)-(b.wc||999999));
+  document.getElementById('filteredCount').textContent=filtered.length.toLocaleString();page=0;render();
 }
 
-// ── RENDER ──
-function render() {
-  const grid = document.getElementById('bookGrid');
-  if (page === 0) grid.innerHTML = '';
-
-  const start = page * PER;
-  const end = Math.min(start + PER, filtered.length);
-
-  if (filtered.length === 0 && page === 0) {
-    grid.innerHTML = '<div class="loading" style="grid-column:1/-1">검색 결과가 없습니다.</div>';
-    document.getElementById('loadMore').style.display = 'none';
-    return;
-  }
-
-  for (let i = start; i < end; i++) {
-    const b = filtered[i];
-    const card = document.createElement('div');
-    card.className = 'book-card';
-    card.onclick = () => openModal(b);
-
-    let badgeClass = 'none';
-    let badgeText = '—';
-    if (b.ar > 0) {
-      badgeText = 'AR ' + b.ar.toFixed(1);
-      if (b.ar < 4) badgeClass = 'low';
-      else if (b.ar < 7) badgeClass = 'mid';
-      else badgeClass = 'high';
-    }
-    const confirmedTag = b.arE === true ? '<span class="book-tag" style="background:var(--green-bg);color:var(--green)">✓확인</span>' : '<span class="book-tag" style="opacity:0.5">추정</span>';
-
-    const isbn = b.isbn || '';
-    const coverSrc = isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg` : '';
-
-    card.innerHTML = `
-      <div class="book-cover">
-        ${coverSrc ? `<img src="${coverSrc}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>📚</div>'">` : '<div class="placeholder">📚</div>'}
-        <div class="ar-badge ${badgeClass}">${badgeText}</div>
-      </div>
-      <div class="book-info">
-        <div class="book-title">${esc(b.t)}</div>
-        <div class="book-author">${esc(b.a || '—')}</div>
-        <div class="book-tags">
-          <span class="book-tag">${GENRE_KO[b.tp] || b.tp}</span>
-          ${b.lx > 0 ? `<span class="book-tag lx">${b.lx}L</span>` : ''}
-          ${confirmedTag}
-          ${b.il ? `<span class="book-tag" style="background:var(--orange-bg);color:var(--orange)">${b.il}</span>` : ''}
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  }
-
-  document.getElementById('loadMore').style.display = end < filtered.length ? 'block' : 'none';
+function render(){
+  const grid=document.getElementById('bookGrid');if(page===0)grid.innerHTML='';const start=page*PER,end=Math.min(start+PER,filtered.length);
+  if(!filtered.length&&!page){grid.innerHTML='<div class="loading" style="grid-column:1/-1">검색 결과가 없습니다.</div>';document.getElementById('loadMore').style.display='none';return}
+  for(let i=start;i<end;i++){const b=filtered[i],card=document.createElement('div');card.className='book-card'+(b.arE===true?' confirmed':'');card.onclick=()=>openModal(b);
+    let bc='none',bt='—';if(b.ar>0){bt='AR '+b.ar.toFixed(1);bc=b.ar<4?'low':b.ar<7?'mid':'high'}
+    const isbn=b.isbn||'',src=isbn?`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`:'',isC=b.arE===true;
+    card.innerHTML=`<div class="book-cover">${src?`<img src="${src}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>📚</div>'">`:'<div class="placeholder">📚</div>'}<div class="ar-badge ${bc}">${bt}</div>${isC?'<div class="ar-check">✓</div>':''}</div><div class="book-info"><div class="book-title">${esc(b.t)}</div><div class="book-author">${esc(b.a||'—')}</div><div class="book-tags"><span class="book-tag">${GENRE_KO[b.tp]||b.tp}</span>${b.lx>0?`<span class="book-tag lx">${b.lx}L</span>`:''}${isC&&b.il?`<span class="book-tag il">${b.il}</span>`:''}${isC&&b.arPts?`<span class="book-tag pts">${b.arPts}pts</span>`:''}</div></div>`;grid.appendChild(card)}
+  document.getElementById('loadMore').style.display=end<filtered.length?'block':'none';
 }
+function loadMore(){page++;render()}
 
-function loadMore() {
-  page++;
-  render();
+function openModal(b){
+  const isbn=b.isbn||'',src=isbn?`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`:'',lx=b.lx>0?b.lx+'L':'—',ar=b.ar>0?b.ar.toFixed(1):'—',isC=b.arE===true;
+  let lv='—';if(b.ar>0){lv=b.ar<2?'유아·초저':b.ar<4?'초중':b.ar<6?'초고':b.ar<8?'중학':'고급'}
+  let h=`<div class="modal-cover">${src?`<img src="${src}" onerror="this.parentElement.innerHTML='<div class=placeholder>📚</div>'">`:'<div class="placeholder">📚</div>'}</div><div class="modal-title">${esc(b.t)}</div><div class="modal-author">${esc(b.a||'작자 미상')}</div><div class="modal-ar-status"><span class="ar-status-badge ${isC?'confirmed':'estimated'}">${isC?'✅ AR 실제 확인':'🔶 AI 추정값'}</span></div><div class="modal-stats"><div class="modal-stat"><div class="modal-stat-val">${ar}</div><div class="modal-stat-label">AR Level</div></div><div class="modal-stat"><div class="modal-stat-val">${lx}</div><div class="modal-stat-label">Lexile</div></div><div class="modal-stat"><div class="modal-stat-val">${lv}</div><div class="modal-stat-label">단계</div></div></div>`;
+  if(isC){h+='<div class="modal-extra">';if(b.arPts)h+=`<div class="modal-stat"><div class="modal-stat-val">${b.arPts}</div><div class="modal-stat-label">AR Points</div></div>`;if(b.wc)h+=`<div class="modal-stat"><div class="modal-stat-val">${b.wc.toLocaleString()}</div><div class="modal-stat-label">Word Count</div></div>`;if(b.il)h+=`<div class="modal-stat"><div class="modal-stat-val">${IL_FULL[b.il]||b.il}</div><div class="modal-stat-label">Interest Level</div></div>`;if(b.qn)h+=`<div class="modal-stat"><div class="modal-stat-val">${b.qn}</div><div class="modal-stat-label">Quiz No.</div></div>`;h+='</div>'}
+  h+=`<div class="modal-libs"><div class="modal-libs-title">📍 소장 도서관</div>${b.lb.map(l=>`<span class="modal-lib-chip">${l.replace('서울특별시교육청','')}</span>`).join('')}</div><div class="modal-isbn">${isbn?'ISBN: '+isbn:''}</div>`;
+  if(isC&&b.qn)h+=`<a class="modal-ar-link" href="https://www.arbookfind.com/bookdetail.aspx?q=${b.qn}&l=EN" target="_blank" rel="noopener">🔗 AR BookFinder에서 보기</a>`;
+  document.getElementById('modalBody').innerHTML=h;document.getElementById('bookModal').classList.add('show');document.body.style.overflow='hidden';
 }
-
-// ── MODAL ──
-function openModal(b) {
-  const isbn = b.isbn || '';
-  const coverSrc = isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg` : '';
-  const lxText = b.lx > 0 ? b.lx + 'L' : '—';
-  const arText = b.ar > 0 ? b.ar.toFixed(1) : '—';
-
-  let levelLabel = '—';
-  if (b.ar > 0) {
-    if (b.ar < 2) levelLabel = '유아·초저';
-    else if (b.ar < 4) levelLabel = '초중';
-    else if (b.ar < 6) levelLabel = '초고';
-    else if (b.ar < 8) levelLabel = '중학';
-    else levelLabel = '고급';
-  }
-
-  const arStatus = b.arE === true
-    ? '<div style="text-align:center;margin-bottom:12px;"><span style="background:var(--green-bg);color:var(--green);padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:700;">✅ AR 실제 확인 도서</span></div>'
-    : '<div style="text-align:center;margin-bottom:12px;"><span style="background:var(--tag-bg);color:var(--text3);padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:700;">🔶 AI 추정값</span></div>';
-
-  const IL_LABELS = {LG:'Lower Grades (K-3)', MG:'Middle Grades (4-8)', 'MG+':'Middle Grades+ (6+)', UG:'Upper Grades (9-12)'};
-
-  let extraStats = '';
-  if (b.arPts) extraStats += `<div class="modal-stat"><div class="modal-stat-val">${b.arPts}</div><div class="modal-stat-label">AR Points</div></div>`;
-  if (b.wc) extraStats += `<div class="modal-stat"><div class="modal-stat-val">${b.wc.toLocaleString()}</div><div class="modal-stat-label">Word Count</div></div>`;
-  if (b.il) extraStats += `<div class="modal-stat"><div class="modal-stat-val" style="font-size:0.85rem">${IL_LABELS[b.il] || b.il}</div><div class="modal-stat-label">Interest Level</div></div>`;
-
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-cover">
-      ${coverSrc ? `<img src="${coverSrc}" onerror="this.parentElement.innerHTML='<div class=placeholder>📚</div>'">` : '<div class="placeholder">📚</div>'}
-    </div>
-    <div class="modal-title">${esc(b.t)}</div>
-    <div class="modal-author">${esc(b.a || '작자 미상')}</div>
-    ${arStatus}
-    <div class="modal-stats">
-      <div class="modal-stat"><div class="modal-stat-val">${arText}</div><div class="modal-stat-label">AR Level</div></div>
-      <div class="modal-stat"><div class="modal-stat-val">${lxText}</div><div class="modal-stat-label">Lexile</div></div>
-      <div class="modal-stat"><div class="modal-stat-val">${levelLabel}</div><div class="modal-stat-label">단계</div></div>
-    </div>
-    ${extraStats ? `<div class="modal-stats">${extraStats}</div>` : ''}
-    <div class="modal-libs">
-      <div class="modal-libs-title">소장 도서관</div>
-      ${b.lb.map(l => `<span class="modal-lib-chip">${l.replace('서울특별시교육청','')}</span>`).join('')}
-    </div>
-    ${b.qn ? `<div style="text-align:center;margin:12px 0"><a href="https://www.arbookfind.com/bookdetail.aspx?q=${b.qn}&l=EN" target="_blank" style="color:var(--accent2);font-size:0.78rem;text-decoration:none;font-weight:600;">🔗 AR BookFinder에서 보기</a></div>` : ''}
-    <div class="modal-isbn">${isbn ? 'ISBN: ' + isbn : ''}</div>`;
-
-  document.getElementById('bookModal').classList.add('show');
-  document.body.style.overflow = 'hidden';
+function closeModal(e){if(e.target===document.getElementById('bookModal')){document.getElementById('bookModal').classList.remove('show');document.body.style.overflow=''}}
+function showHelp(){
+  document.getElementById('guideTotal').textContent=BOOKS.length.toLocaleString();
+  document.getElementById('guideConfirmed').textContent=BOOKS.filter(b=>b.arE===true).length.toLocaleString();
+  document.getElementById('guideModal').classList.add('show');document.body.style.overflow='hidden';
 }
-
-function closeModal(e) {
-  if (e.target === document.getElementById('bookModal')) {
-    document.getElementById('bookModal').classList.remove('show');
-    document.body.style.overflow = '';
-  }
-}
-
-// ── GUIDE ──
-function showGuide() {
-  document.getElementById('guideModal').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-function closeGuide(e) {
-  if (e.target === document.getElementById('guideModal')) {
-    document.getElementById('guideModal').classList.remove('show');
-    document.body.style.overflow = '';
-  }
-}
-
-// ── THEME ──
-function toggleTheme() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-  localStorage.setItem('theme', isDark ? 'light' : 'dark');
-}
-if (localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-
-// ── UTIL ──
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-// ── GO ──
-// 모바일 터치 이벤트 보강 (iOS Safari 300ms delay 방지)
-document.querySelectorAll('.btn-icon, .chip, .ar-preset, .sort-btn, .load-more, .modal-close-btn, .search-clear').forEach(el => {
-  el.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    this.click();
-  }, { passive: false });
-});
-
+function closeGuide(e){if(e.target===document.getElementById('guideModal')){document.getElementById('guideModal').classList.remove('show');document.body.style.overflow=''}}
+function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('theme',d?'light':'dark')}
+if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+document.querySelectorAll('.btn-icon,.chip,.ar-preset,.sort-btn,.load-more,.modal-close-btn,.search-clear').forEach(el=>{el.addEventListener('touchend',function(e){e.preventDefault();this.click()},{passive:false})});
 init();
 </script>
 </body>
