@@ -45,7 +45,7 @@
 <div class="filter-section"><div class="filter-label">Interest Level</div><div class="filter-scroll" id="ilBar"></div></div>
 <div class="filter-section"><div class="filter-label">장르</div><div class="filter-scroll" id="genreBar"></div></div>
 <div class="filter-section" style="padding-bottom:2px"><div class="filter-label">도서관</div><div class="filter-scroll" id="libBar"></div></div>
-<div class="fav-toolbar" id="favToolbar"><button class="fav-toolbar-btn" onclick="exportFavs()">📤 내보내기</button><button class="fav-toolbar-btn" onclick="document.getElementById('favImportFile').click()">📥 가져오기</button><input type="file" id="favImportFile" accept=".json" onchange="importFavs(event)"></div>
+<div class="fav-toolbar" id="favToolbar"><button class="fav-toolbar-btn" onclick="toggleFavFilter()" style="background:var(--accent);color:#fff;border-color:var(--accent)">✕ 전체 보기</button><button class="fav-toolbar-btn" onclick="exportFavs()">📤 내보내기</button><button class="fav-toolbar-btn" onclick="document.getElementById('favImportFile').click()">📥 가져오기</button><input type="file" id="favImportFile" accept=".json" onchange="importFavs(event)"></div>
 <div class="result-bar"><span class="result-count"><strong id="filteredCount">—</strong>권 검색됨</span><button class="sort-btn" id="sortBtn" onclick="toggleSort()">AR 높은순 ↓</button></div>
 <div class="book-grid" id="bookGrid"><div class="loading"><div class="loading-spinner"></div><div>52,810권 불러오는 중...</div></div></div>
 <button class="load-more" id="loadMore" onclick="loadMore()" style="display:none">더 보기</button>
