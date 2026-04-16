@@ -1,13 +1,10 @@
 // Cloudflare Worker — 용산 영어책 탐색기 대출 확인 프록시
-// 배포: Cloudflare Dashboard → Workers & Pages → Create Worker → 이 코드 붙여넣기
-// 환경변수: DATA4LIB_KEY = 정보나루 API 인증키
 
-const REGION = '11020'; // 용산구
+const LIB_SEARCHES = ['용산도서관', '남산도서관', '용산꿈나무', '용암어린이영어', '청파도서관', '청파어린이영어'];
 let cachedLibs = null;
 
 export default {
   async fetch(request, env) {
-    // CORS preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         headers: {
@@ -20,29 +17,50 @@ export default {
 
     const url = new URL(request.url);
     const isbn = url.searchParams.get('isbn');
+    const debug = url.searchParams.get('debug');
     const apiKey = env.DATA4LIB_KEY;
-
-    if (!isbn) {
-      return jsonResponse({ error: 'isbn parameter required' }, 400);
-    }
 
     if (!apiKey) {
       return jsonResponse({ error: 'API key not configured' }, 500);
     }
 
     try {
-      // 1. 도서관 코드 조회 (캐시)
+      // 도서관 코드 조회 (이름 기반, 캐시)
       if (!cachedLibs) {
-        const libUrl = `http://data4library.kr/api/libSrch?authKey=${apiKey}&dtl_region=${REGION}&pageSize=30&format=json`;
-        const libResp = await fetch(libUrl);
-        const libData = await libResp.json();
-        cachedLibs = (libData.response?.libs || []).map(l => ({
-          code: l.lib.libCode,
-          name: l.lib.libName,
-        }));
+        cachedLibs = [];
+        const searches = await Promise.all(
+          LIB_SEARCHES.map(async (name) => {
+            const libUrl = `http://data4library.kr/api/libSrch?authKey=${apiKey}&libName=${encodeURIComponent(name)}&pageSize=10&format=json`;
+            const resp = await fetch(libUrl);
+            const data = await resp.json();
+            return (data.response?.libs || []).map(l => ({
+              code: l.lib.libCode,
+              name: l.lib.libName,
+              address: l.lib.address || '',
+            }));
+          })
+        );
+        // 용산구 도서관만 필터 (주소에 용산 포함)
+        const all = searches.flat();
+        const seen = new Set();
+        for (const lib of all) {
+          if (!seen.has(lib.code) && (lib.address.includes('용산') || lib.name.includes('용산') || lib.name.includes('남산'))) {
+            cachedLibs.push(lib);
+            seen.add(lib.code);
+          }
+        }
       }
 
-      // 2. 각 도서관별 대출 가능 여부 조회 (병렬)
+      // 디버그 모드: 발견된 도서관 목록 반환
+      if (debug !== null) {
+        return jsonResponse({ libraries: cachedLibs });
+      }
+
+      if (!isbn) {
+        return jsonResponse({ error: 'isbn parameter required' }, 400);
+      }
+
+      // 각 도서관별 대출 가능 여부 조회 (병렬)
       const checks = await Promise.all(
         cachedLibs.map(async (lib) => {
           const checkUrl = `http://data4library.kr/api/bookExist?authKey=${apiKey}&isbn13=${isbn}&libCode=${lib.code}&format=json`;
@@ -58,9 +76,7 @@ export default {
         })
       );
 
-      // 3. 소장 도서관만 반환
       const results = checks.filter(r => r.hasBook);
-
       return jsonResponse({ isbn, results });
     } catch (e) {
       return jsonResponse({ error: e.message }, 500);
