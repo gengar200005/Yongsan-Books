@@ -167,7 +167,7 @@ AR 데이터: arbookfind.com (Renaissance Learning)
 let BOOKS=[],filtered=[],page=0;const PER=48;let currentSort='ar-desc',arMinVal=0,arMaxVal=13,activeGenre='전체',activeLib='전체',activeIL='전체',activeArStatus='✅ AR 확인',searchQuery='',debounceTimer=null,favOnly=false;
 
 // 🔥 Firebase 설정 — 본인의 Firebase 프로젝트 설정으로 교체하세요
-const firebaseConfig={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT_ID",storageBucket:"YOUR_PROJECT.appspot.com",messagingSenderId:"YOUR_SENDER_ID",appId:"YOUR_APP_ID"};
+const firebaseConfig={apiKey:"AIzaSyCBs_CZ0beMJesqBRyjAMe0i8b7ua16c8k",authDomain:"yongsan-books.firebaseapp.com",projectId:"yongsan-books",storageBucket:"yongsan-books.firebasestorage.app",messagingSenderId:"633550402058",appId:"1:633550402058:web:678e86323cd7bc446265f3"};
 firebase.initializeApp(firebaseConfig);const fbAuth=firebase.auth(),fbDb=firebase.firestore();let currentUser=null;
 
 let favs=new Set(JSON.parse(localStorage.getItem('yongsan-favs')||'[]'));
