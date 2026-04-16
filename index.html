@@ -189,7 +189,7 @@ async function loadFavsFromCloud(){if(!currentUser)return;try{const doc=await fb
 async function syncFavsToCloud(){if(!currentUser)return;try{await fbDb.collection('users').doc(currentUser.uid).set({favs:[...favs],updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}catch(e){console.error('Cloud sync failed:',e)}}
 
 // 대출 확인
-const LOAN_WORKER_URL='YOUR_WORKER_URL'; // Cloudflare Worker URL로 교체
+const LOAN_WORKER_URL='https://yongsan-books-api.sieun8475.workers.dev'; // Cloudflare Worker URL로 교체
 async function checkLoan(isbn){const area=document.getElementById('loanArea');area.innerHTML='<div class="loan-loading">⏳ 대출 가능 여부 조회 중...</div>';try{const resp=await fetch(LOAN_WORKER_URL+'?isbn='+isbn);const data=await resp.json();if(data.error){area.innerHTML='<div class="loan-loading">⚠️ '+data.error+'</div>';return}if(!data.results||!data.results.length){area.innerHTML='<div class="loan-loading">등록된 도서관에서 찾을 수 없습니다.</div>';return}let h='<div class="loan-results">';data.results.forEach(r=>{const avail=r.loanAvailable;h+=`<div class="loan-result ${avail?'available':'unavailable'}"><span class="lib-name">${r.name.replace('서울특별시교육청','')}</span><span class="loan-status">${avail?'✅ 대출가능':'❌ 대출중'}</span></div>`});h+='</div>';area.innerHTML=h}catch(e){area.innerHTML='<div class="loan-loading">⚠️ 조회 실패 — 네트워크 오류</div>'}}
 const IL_LABELS={'LG':'LG (K-3)','MG':'MG (4-8)','MG+':'MG+ (6+)','UG':'UG (9-12)'};
 const IL_FULL={'LG':'Lower Grades (K-3)','MG':'Middle Grades (4-8)','MG+':'Middle Grades+ (6+)','UG':'Upper Grades (9-12)'};
